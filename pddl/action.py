@@ -15,7 +15,7 @@ from typing import Optional, Sequence
 
 from pddl.custom_types import namelike, parse_name
 from pddl.helpers.base import _typed_parameters, ensure_sequence
-from pddl.logic import Variable
+from pddl.logic import Constant, Variable
 from pddl.logic.base import Formula
 from pddl.logic.terms import Term
 
@@ -29,6 +29,7 @@ class Action:
         parameters: Sequence[Variable],
         precondition: Optional[Formula] = None,
         effect: Optional[Formula] = None,
+        constants: Optional[Sequence[Constant]] = None,
     ):
         """
         Initialize the action.
@@ -42,6 +43,7 @@ class Action:
         self._parameters: Sequence[Variable] = ensure_sequence(parameters)
         self._precondition = precondition
         self._effect = effect
+        self._constants = constants
 
     @property
     def name(self) -> str:

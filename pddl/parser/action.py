@@ -131,7 +131,12 @@ class ActionTransformer(Transformer[Any, Domain]):
         action_body = {
             _children[i][1:]: _children[i + 1] for i in range(0, len(_children), 2)
         }
-        return Action(action_name, variables, **action_body)
+        return Action(
+            action_name,
+            variables,
+            **action_body,
+            constants=[constant for constant in self._constants_by_name.values()],
+        )
 
     def derived_predicates(self, args):
         """Process the 'derived_predicates' rule."""
@@ -332,9 +337,11 @@ class ActionTransformer(Transformer[Any, Domain]):
     def constant(self, args):
         """Process the 'constant' rule."""
         assert_(len(args) == 1, "Unexpected parsing error.")
+        token = args[0]
         constant = self._constants_by_name.get(args[0], None)
         if constant is None:
-            self._constants_by_name[args[0]] = Constant(args[0])
+            constant = Constant(token.value)
+            self._constants_by_name[token.value] = constant
         return constant
 
     def _formula_skeleton(self, args):
