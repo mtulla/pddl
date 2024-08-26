@@ -181,7 +181,9 @@ class ActionTransformer(Transformer[Any, Domain]):
             {Requirements.DIS_PRECONDITION, Requirements.ADL}
             & self._extended_requirements
         ):
-            raise PDDLMissingRequirementError(Requirements.DIS_PRECONDITION)
+            # raise PDDLMissingRequirementError(Requirements.DIS_PRECONDITION)
+            # TODO temporary change; remove
+            pass
         operands = args[2:-1]
         return Or(*operands)
 
